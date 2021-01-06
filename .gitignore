@@ -11,6 +11,8 @@ coverage
 
 # Remix
 /.cache
+/build
+/public/build
 
 # misc
 .DS_Store
