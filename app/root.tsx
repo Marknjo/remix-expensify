@@ -13,9 +13,11 @@ import {
 } from '@remix-run/react'
 import type { V2_ErrorBoundaryComponent } from '@remix-run/react/dist/routeModules'
 import type { ReactNode } from 'react'
+import sharedStyles from '~/styles/shared.css'
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+  { rel: 'stylesheet', href: sharedStyles },
 ]
 
 function Document({
