@@ -1,9 +1,10 @@
 interface IListItemProps {
   title: string
   amount: number
+  id: string
 }
 
-function ExpenseListItem({ title, amount }: IListItemProps) {
+function ExpenseListItem({ title, amount, id }: IListItemProps) {
   function deleteExpenseItemHandler() {
     // tbd
   }
