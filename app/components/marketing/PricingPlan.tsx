@@ -1,6 +1,8 @@
 import type { IPricingPlan } from '../types'
 
-function PricingPlan({ title, price, perks, icon }: IPricingPlan) {
+type TProps = Omit<IPricingPlan, 'id'>
+
+function PricingPlan({ title, price, perks, icon }: TProps) {
   const Icon = icon
   return (
     <article>
