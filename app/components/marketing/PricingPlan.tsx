@@ -1,13 +1,6 @@
-import type { ElementType } from 'react'
+import type { IPricingPlan } from '../types'
 
-interface IPricingPlanProps {
-  title: string
-  price: number
-  perks: Array<string>
-  icon: ElementType<any>
-}
-
-function PricingPlan({ title, price, perks, icon }: IPricingPlanProps) {
+function PricingPlan({ title, price, perks, icon }: IPricingPlan) {
   const Icon = icon
   return (
     <article>
