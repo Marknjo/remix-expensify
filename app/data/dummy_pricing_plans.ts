@@ -1,7 +1,7 @@
 import { FaHandshake, FaTrophy } from 'react-icons/fa'
 import type { IPricingPlan } from '~/components/types'
 
-export const PRICING_PLANS: IPricingPlan[] = [
+const PRICING_PLANS: IPricingPlan[] = [
   {
     id: 'p1',
     title: 'Basic',
@@ -17,3 +17,5 @@ export const PRICING_PLANS: IPricingPlan[] = [
     icon: FaTrophy,
   },
 ]
+
+export default PRICING_PLANS
