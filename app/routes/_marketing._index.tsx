@@ -1,6 +1,6 @@
 import type { V2_MetaFunction } from '@remix-run/node'
 import { Link } from '@remix-run/react'
-import { FaArrowRight, FaDollarSign } from 'react-icons/fa'
+import { FaArrowRight, FaChartBar, FaDollarSign } from 'react-icons/fa'
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -35,6 +35,30 @@ export default function Index() {
                 <FaArrowRight />
               </Link>
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="marketing-section">
+        <header>
+          <FaChartBar />
+          <h2>Detailed Analytics</h2>
+        </header>
+        <div className="marketing-content">
+          <div className="marketing-content__details">
+            <p className="marketing-explanation">
+              Benefit from best-in-class analytics to understand your spending
+              patterns.
+            </p>
+            <p>
+              <Link className="cta" to="/expenses/analysis">
+                <span>Review</span>
+                <FaArrowRight />
+              </Link>
+            </p>
+          </div>
+          <div className="marketing-image">
+            <img src="images/expenses-chart.jpg" alt="A demo bar chart." />
           </div>
         </div>
       </section>
