@@ -1,7 +1,7 @@
 import type { Expense } from '@prisma/client'
 import ChartBar from './ChartBar'
 
-function Chart({ expenses }: { expenses: Expense[] }) {
+function Chart({ expenses }: { expenses: Omit<Expense, 'createdAt'>[] }) {
   const chartDataPoints = [
     { label: 'Jan', value: 0 },
     { label: 'Feb', value: 0 },

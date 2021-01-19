@@ -1,7 +1,7 @@
 import type { Expense } from '@prisma/client'
 import { useMemo } from 'react'
 
-function calculateSummaryStatistics(expenses: Expense[]) {
+function calculateSummaryStatistics(expenses: Omit<Expense, 'createdAt'>[]) {
   const amounts = expenses.map(expense => +expense.amount)
   const maxAmount = Math.max(...amounts)
   const minAmount = Math.min(...amounts)
@@ -11,7 +11,11 @@ function calculateSummaryStatistics(expenses: Expense[]) {
   return { minAmount, maxAmount, sum, mean }
 }
 
-function ExpenseStatistics({ expenses }: { expenses: Expense[] }) {
+function ExpenseStatistics({
+  expenses,
+}: {
+  expenses: Omit<Expense, 'createdAt'>[]
+}) {
   const { minAmount, maxAmount, sum, mean } = useMemo(
     () => calculateSummaryStatistics(expenses),
     [expenses],
