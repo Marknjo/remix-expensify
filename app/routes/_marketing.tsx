@@ -1,5 +1,6 @@
 import type { LinksFunction } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
+import MainHeader from '~/components/navigation/MainHeader'
 import marketingStyles from '~/styles/marketing.css'
 
 // meta
@@ -11,8 +12,11 @@ export const links: LinksFunction = () => [
 
 export default function MarketingLayout() {
   return (
-    <main>
-      <Outlet />
-    </main>
+    <>
+      <MainHeader />
+      <main>
+        <Outlet />
+      </main>
+    </>
   )
 }
