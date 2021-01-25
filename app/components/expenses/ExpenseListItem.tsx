@@ -1,3 +1,5 @@
+import { Link } from '@remix-run/react'
+
 interface IListItemProps {
   title: string
   amount: number
@@ -17,7 +19,7 @@ function ExpenseListItem({ title, amount, id }: IListItemProps) {
       </div>
       <menu className="expense-actions">
         <button onClick={deleteExpenseItemHandler}>Delete</button>
-        <a href="tbd">Edit</a>
+        <Link to={`/expenses/${id}`}>Edit</Link>
       </menu>
     </article>
   )
