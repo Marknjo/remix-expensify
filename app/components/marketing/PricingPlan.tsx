@@ -1,4 +1,4 @@
-import type { IPricingPlan } from '../types'
+import type { IPricingPlan } from '../../types'
 
 type TProps = Omit<IPricingPlan, 'id'>
 
