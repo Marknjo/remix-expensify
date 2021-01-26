@@ -3,7 +3,8 @@ import { useNavigate } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
-import type { INewExpense } from '~/types'
+import { validateExpenseInput } from '~/server'
+import type { INewExpense, INewExpenseValidationsErrors } from '~/types'
 
 // meta
 
@@ -23,6 +24,12 @@ export const action: ActionFunction = async ({ request }) => {
 
   const newExpense = rawExpense as unknown as INewExpense
   // handle inputs validations
+
+  try {
+    validateExpenseInput(newExpense)
+  } catch (error) {
+    return error as INewExpenseValidationsErrors
+  }
 
   // save to db
   console.log(newExpense)

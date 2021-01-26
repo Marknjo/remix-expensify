@@ -13,7 +13,7 @@ function isValidDate(value: string) {
   return value && new Date(value).getTime() < new Date().getTime()
 }
 
-export function validateExpenseInput(input: INewExpense) {
+export default function validateExpenseInput(input: INewExpense) {
   let validationErrors: INewExpenseValidationsErrors = {}
 
   if (!isValidTitle(input.title)) {
