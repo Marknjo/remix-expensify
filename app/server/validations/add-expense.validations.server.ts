@@ -1,25 +1,27 @@
-function isValidTitle(value) {
+import type { INewExpense, INewExpenseValidationsErrors } from '~/types'
+
+function isValidTitle(value: string) {
   return value && value.trim().length > 0 && value.trim().length <= 30
 }
 
-function isValidAmount(value) {
+function isValidAmount(value: string) {
   const amount = parseFloat(value)
   return !isNaN(amount) && amount > 0
 }
 
-function isValidDate(value) {
+function isValidDate(value: string) {
   return value && new Date(value).getTime() < new Date().getTime()
 }
 
-export function validateExpenseInput(input) {
-  let validationErrors = {}
+export function validateExpenseInput(input: INewExpense) {
+  let validationErrors: INewExpenseValidationsErrors = {}
 
   if (!isValidTitle(input.title)) {
     validationErrors.title =
       'Invalid expense title. Must be at most 30 characters long.'
   }
 
-  if (!isValidAmount(input.amount)) {
+  if (!isValidAmount(String(input.amount))) {
     validationErrors.amount =
       'Invalid amount. Must be a number greater than zero.'
   }
