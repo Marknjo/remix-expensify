@@ -3,15 +3,11 @@ import { useNavigate } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
+import type { INewExpense } from '~/types'
 
 // meta
 
 // action
-interface TNewExpense {
-  title: string
-  amount: number
-  date: string
-}
 
 export const action: ActionFunction = async ({ request }) => {
   const formData: FormData = await request.formData()
@@ -25,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   invariant(typeof rawExpense.date === 'string', 'Title must be a number')
 
-  const newExpense = rawExpense as unknown as TNewExpense
+  const newExpense = rawExpense as unknown as INewExpense
   // handle inputs validations
 
   // save to db
