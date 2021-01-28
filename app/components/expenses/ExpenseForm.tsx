@@ -1,7 +1,15 @@
 import type { Expense } from '@prisma/client'
-import { Form, Link, useLoaderData, useNavigation } from '@remix-run/react'
+import {
+  Form,
+  Link,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from '@remix-run/react'
+import type { INewExpenseValidationsErrors } from '~/types'
 
 function ExpenseForm() {
+  const validationErrors = useActionData<INewExpenseValidationsErrors>()
   const expenseData = useLoaderData<Expense>()
   const navigation = useNavigation()
 
@@ -62,6 +70,14 @@ function ExpenseForm() {
           />
         </p>
       </div>
+
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map(error => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
 
       <div className="form-actions">
         <button disabled={Boolean(isSubmitting)}>
