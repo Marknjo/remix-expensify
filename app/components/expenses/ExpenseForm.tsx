@@ -1,10 +1,15 @@
 import type { Expense } from '@prisma/client'
-import { Form, Link, useLoaderData } from '@remix-run/react'
+import { Form, Link, useLoaderData, useNavigation } from '@remix-run/react'
 
 function ExpenseForm() {
   const expenseData = useLoaderData<Expense>()
+  const navigation = useNavigation()
+
+  console.log(expenseData)
 
   const today = new Date().toISOString().slice(0, 10) // yields something like 2023-09-10
+
+  const isSubmitting = navigation.state !== 'idle'
 
   const defaultValues = expenseData
     ? {
@@ -59,7 +64,9 @@ function ExpenseForm() {
       </div>
 
       <div className="form-actions">
-        <button>'Save Expense'</button>
+        <button disabled={Boolean(isSubmitting)}>
+          {isSubmitting ? 'Saving...' : 'Save Expense'}
+        </button>
         <Link to="..">Cancel</Link>
       </div>
     </Form>
