@@ -13,8 +13,6 @@ function ExpenseForm() {
   const expenseData = useLoaderData<Expense>()
   const navigation = useNavigation()
 
-  console.log(expenseData)
-
   const today = new Date().toISOString().slice(0, 10) // yields something like 2023-09-10
 
   const isSubmitting = navigation.state !== 'idle'
@@ -81,7 +79,13 @@ function ExpenseForm() {
 
       <div className="form-actions">
         <button disabled={Boolean(isSubmitting)}>
-          {isSubmitting ? 'Saving...' : 'Save Expense'}
+          {expenseData
+            ? isSubmitting
+              ? 'Updating...'
+              : 'Edit Expense'
+            : isSubmitting
+            ? 'Saving...'
+            : 'Save Expense'}
         </button>
         <Link to="..">Cancel</Link>
       </div>
