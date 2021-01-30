@@ -91,7 +91,7 @@ export const ErrorBoundary: V2_ErrorBoundaryComponent = () => {
         <main className="error">
           <h1>Unknown Error</h1>
 
-          <Link to="/notes">&larr; Take me back to safety</Link>
+          <Link to="/expenses">&larr; Take me back to safety</Link>
         </main>
       </Document>
     )
