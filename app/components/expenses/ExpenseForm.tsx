@@ -1,17 +1,49 @@
 import type { Expense } from '@prisma/client'
+import { json } from '@remix-run/node'
 import {
   Form,
   Link,
   useActionData,
-  useLoaderData,
+  useMatches,
   useNavigation,
+  useParams,
 } from '@remix-run/react'
 import type { INewExpenseValidationsErrors } from '~/types'
 
 function ExpenseForm() {
   const validationErrors = useActionData<INewExpenseValidationsErrors>()
-  const expenseData = useLoaderData<Expense>()
+
+  const loadDataFormPath = useMatches()
   const navigation = useNavigation()
+  const param = useParams()
+
+  const data = loadDataFormPath.find(
+    route => route.id === 'routes/_app.expenses',
+  )
+
+  if (!data) {
+    throw json(
+      { message: `Something happened when loading this page` },
+      {
+        status: 500,
+        statusText: 'Not Found',
+      },
+    )
+  }
+
+  const expenseData = (data.data as Array<Expense>).find(
+    expense => expense.id === param.id,
+  )
+
+  if (!expenseData || expenseData.id !== param.id) {
+    throw json(
+      { message: 'Invalid Id' },
+      {
+        status: 404,
+        statusText: 'Invalid Id',
+      },
+    )
+  }
 
   const today = new Date().toISOString().slice(0, 10) // yields something like 2023-09-10
 
@@ -21,7 +53,7 @@ function ExpenseForm() {
     ? {
         title: expenseData.title,
         amount: expenseData.amount,
-        date: expenseData.date,
+        date: new Date(expenseData.date).toISOString().slice(0, 10),
       }
     : {
         title: '',
