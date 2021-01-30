@@ -13,6 +13,7 @@ coverage
 /.cache
 /build
 /public/build
+/keyfile
 
 # misc
 .DS_Store

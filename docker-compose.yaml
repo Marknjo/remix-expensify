@@ -1,14 +1,21 @@
 services:
   db:
-    image: mongo
-    container_name: remix-expensify-db
-    restart: always
-    ports:
-      - 27027:27017
-    volumes:
-      - expensify-db:/data/db
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: root
     env_file:
-      - ./.env.local
-
+      - '.env.local'
+    ports:
+      - '27027:27017'
+    volumes:
+      - data:/data/db
+    healthcheck:
+      test: |
+        test $$(mongosh --quiet -u root -p root --eval "try { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'db' }] }).ok } catch (_) { rs.status().ok }") -eq 1
+      interval: 10s
+      start_period: 30s
 volumes:
-  expensify-db:
+  data:

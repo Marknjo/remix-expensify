@@ -3,7 +3,7 @@ import { useNavigate } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
-import { validateExpenseInput } from '~/server'
+import { createExpense, validateExpenseInput } from '~/server'
 import type { INewExpense, INewExpenseValidationsErrors } from '~/types'
 
 // meta
@@ -32,7 +32,13 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   // save to db
-  console.log(newExpense)
+  try {
+    await createExpense(newExpense)
+  } catch (error) {
+    console.log(error)
+
+    // throw error
+  }
 
   // redirect to /expenses
   return redirect('..')
