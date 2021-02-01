@@ -1,12 +1,7 @@
 import { Link } from '@remix-run/react'
+import type { Expense } from '@prisma/client'
 
-interface IListItemProps {
-  title: string
-  amount: number
-  id: string
-}
-
-function ExpenseListItem({ title, amount, id }: IListItemProps) {
+function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
   function deleteExpenseItemHandler() {
     // tbd
   }
