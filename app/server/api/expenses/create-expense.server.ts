@@ -10,7 +10,10 @@ export default async function createExpense(newExpense: INewExpense) {
         title: newExpense.title,
         amount: +newExpense.amount,
         date: new Date(newExpense.date),
-        currency: 'en-KE',
+
+        /// @TODO: use user settings to se currency details
+        locale: 'en-KE',
+        currencyCode: 'KES',
       },
     })
   } catch (error) {
