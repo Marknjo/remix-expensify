@@ -1,5 +1,6 @@
 import type { Expense } from '@prisma/client'
 import { useMemo } from 'react'
+import { formatCurrency } from '../utils/format-currency'
 
 function calculateSummaryStatistics(expenses: Expense[]) {
   const amounts = expenses.map(expense => +expense.amount)
@@ -12,6 +13,9 @@ function calculateSummaryStatistics(expenses: Expense[]) {
 }
 
 function ExpenseStatistics({ expenses }: { expenses: Expense[] }) {
+  const currencyCode = expenses.at(0)!.currencyCode
+  const locale = expenses.at(0)!.locale
+
   const { minAmount, maxAmount, sum, mean } = useMemo(
     () => calculateSummaryStatistics(expenses),
     [expenses],
@@ -23,19 +27,19 @@ function ExpenseStatistics({ expenses }: { expenses: Expense[] }) {
       <dl id="expense-statistics">
         <div>
           <dt>Total</dt>
-          <dd>${sum.toFixed(2)}</dd>
+          <dd> {formatCurrency(sum, locale, currencyCode)}</dd>
         </div>
         <div>
           <dt>Average</dt>
-          <dd>${mean.toFixed(2)}</dd>
+          <dd>{formatCurrency(mean, locale, currencyCode)}</dd>
         </div>
         <div>
           <dt> Min. Amount</dt>
-          <dd>${minAmount.toFixed(2)}</dd>
+          <dd>{formatCurrency(minAmount, locale, currencyCode)}</dd>
         </div>
         <div>
           <dt>Max. Amount</dt>
-          <dd>${maxAmount.toFixed(2)}</dd>
+          <dd>{formatCurrency(maxAmount, locale, currencyCode)}</dd>
         </div>
       </dl>
     </section>
