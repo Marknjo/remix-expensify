@@ -35,16 +35,6 @@ function ExpenseForm() {
     expense => expense.id === param.id,
   )
 
-  if (!expenseData || expenseData.id !== param.id) {
-    throw json(
-      { message: 'Invalid Id' },
-      {
-        status: 404,
-        statusText: 'Invalid Id',
-      },
-    )
-  }
-
   const today = new Date().toISOString().slice(0, 10) // yields something like 2023-09-10
 
   const isSubmitting = navigation.state !== 'idle'
