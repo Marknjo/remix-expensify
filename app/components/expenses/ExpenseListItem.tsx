@@ -1,10 +1,27 @@
-import { Form, Link } from '@remix-run/react'
+import type { SyntheticEvent } from 'react'
+import { Link, useFetcher } from '@remix-run/react'
 import type { Expense } from '@prisma/client'
 import { formatCurrency } from '../utils/format-currency'
 
 function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
-  function deleteExpenseItemHandler() {
-    // tbd
+  const fetcher = useFetcher()
+
+  function deleteExpenseItemHandler(event: SyntheticEvent) {
+    event.preventDefault()
+
+    fetcher.submit(null, {
+      method: 'DELETE',
+      action: `/expenses/${id}`,
+    })
+  }
+  const isDeleting = fetcher.state !== 'idle'
+
+  if (isDeleting) {
+    return (
+      <section className="expense-item">
+        <p>Deleting {title} expense (...)</p>
+      </section>
+    )
   }
 
   return (
@@ -16,11 +33,15 @@ function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
         </p>
       </div>
       <menu className="expense-actions">
-        <Form action={`/expenses/${id}`} method="delete">
-          <button type="submit" onClick={deleteExpenseItemHandler}>
-            Delete
+        <fetcher.Form method="delete">
+          <button
+            type="submit"
+            onClick={deleteExpenseItemHandler}
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Deleting...' : ' Delete'}
           </button>
-        </Form>
+        </fetcher.Form>
 
         <Link to={`/expenses/${id}`}>Edit</Link>
       </menu>
