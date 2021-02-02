@@ -4,7 +4,7 @@ import { useNavigate } from '@remix-run/react'
 
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
-import { updateExpense, validateExpenseInput } from '~/server'
+import { deleteExpense, updateExpense, validateExpenseInput } from '~/server'
 import type { INewExpense } from '~/types'
 
 // meta
@@ -53,7 +53,23 @@ export async function action({ request, params }: ActionArgs) {
 
   // delete request
   if (method === 'DELETE') {
-    // @TODO:
+    try {
+      await deleteExpense(id!)
+      return redirect('..')
+    } catch (error) {
+      throw json(
+        {
+          message:
+            error instanceof Error
+              ? error.message
+              : 'Failed to del the expenses',
+        },
+        {
+          status: 400,
+          statusText: 'Invalid inputs',
+        },
+      )
+    }
   }
 
   return null
