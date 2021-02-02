@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 import type { Expense } from '@prisma/client'
 import { formatCurrency } from '../utils/format-currency'
 
@@ -16,7 +16,12 @@ function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
         </p>
       </div>
       <menu className="expense-actions">
-        <button onClick={deleteExpenseItemHandler}>Delete</button>
+        <Form action={`/expenses/${id}`} method="delete">
+          <button type="submit" onClick={deleteExpenseItemHandler}>
+            Delete
+          </button>
+        </Form>
+
         <Link to={`/expenses/${id}`}>Edit</Link>
       </menu>
     </article>
