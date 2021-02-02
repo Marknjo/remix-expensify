@@ -51,8 +51,11 @@ function ExpenseForm() {
         date: '',
       }
 
+  console.log()
+  const method = expenseData ? 'patch' : 'post'
+
   return (
-    <Form method="post" className="form" id="expense-form">
+    <Form method={method} className="form" id="expense-form">
       <p>
         <label htmlFor="title">Expense Title</label>
         <input
