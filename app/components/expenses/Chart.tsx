@@ -28,6 +28,7 @@ function Chart({ expenses }: { expenses: Array<Expense> }) {
   return (
     <section>
       <h2>Monthly Expenses</h2>
+
       <ol className="chart">
         {chartDataPoints.map(dataPoint => (
           <ChartBar

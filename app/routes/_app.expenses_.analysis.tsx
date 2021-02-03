@@ -1,6 +1,6 @@
 import type { Expense } from '@prisma/client'
 import type { LoaderFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import Chart from '~/components/expenses/Chart'
 import ExpenseStatistics from '~/components/expenses/ExpenseStatistics'
 import { getExpenses } from '~/server'
@@ -20,8 +20,20 @@ export const loader: LoaderFunction = async () => {
 export default function ExpensesAnalysisPage() {
   const expenses: Array<Expense> = useLoaderData<typeof loader>()
 
-  if (!expenses) {
-    return
+  console.log('🚩🚩🚩', expenses)
+
+  if (!expenses || expenses.length === 0) {
+    return (
+      <main className="analysis__no-expense">
+        <section>
+          <h1>Monthly Expenses</h1>
+          <p>😟 Oops! Looks like you do not have expenses to analyze yet!</p>
+          <p>
+            Take me to <Link to="/expenses">New Expense &rarr;</Link>
+          </p>
+        </section>
+      </main>
+    )
   }
 
   return (
