@@ -1,6 +1,6 @@
 import { Form, useSearchParams } from '@remix-run/react'
 import { FaLock } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigation } from 'react-router-dom'
 
 export enum EAuthModes {
   SIGN_IN = 'sign-in',
@@ -8,14 +8,22 @@ export enum EAuthModes {
 }
 
 function AuthForm() {
+  const navigation = useNavigation()
   const [searchQuery] = useSearchParams()
 
+  // form state
   const mode = searchQuery.get('mode') || EAuthModes.SIGN_IN
   const transformedMode = mode
     .toLocaleUpperCase()
     .replace('-', '_') as keyof typeof EAuthModes
 
   const authMode = EAuthModes[transformedMode] || EAuthModes.SIGN_IN
+
+  // submission state
+  const isSubmitting = navigation.state !== 'idle'
+
+  {
+  }
 
   return (
     <Form method="post" className="form" id="auth-form">
@@ -31,8 +39,14 @@ function AuthForm() {
         <input type="password" id="password" name="password" minLength={7} />
       </p>
       <div className="form-actions">
-        <button>
-          {EAuthModes.SIGN_UP === authMode ? 'Sign Up' : 'Sign In'}
+        <button type="submit" disabled={Boolean(isSubmitting)}>
+          {isSubmitting
+            ? EAuthModes.SIGN_UP === authMode
+              ? 'Creating Account...'
+              : 'Signing in...'
+            : EAuthModes.SIGN_UP === authMode
+            ? 'Sign Up'
+            : 'Sign In'}
         </button>
         <Link
           to={{
