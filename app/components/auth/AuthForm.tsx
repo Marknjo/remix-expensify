@@ -29,6 +29,13 @@ function AuthForm() {
     <Form method="post" className="form" id="auth-form">
       <div className="icon-img">{isSignUp ? <FaUserPlus /> : <FaLock />}</div>
 
+      {isSignUp && (
+        <p>
+          <label htmlFor="name">Username</label>
+          <input type="name" id="name" name="name" required />
+        </p>
+      )}
+
       <p>
         <label htmlFor="email">Email Address</label>
         <input type="email" id="email" name="email" required />
