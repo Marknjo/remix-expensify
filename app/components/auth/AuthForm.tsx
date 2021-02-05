@@ -1,5 +1,5 @@
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
-import { FaLock } from 'react-icons/fa'
+import { FaLock, FaUserPlus } from 'react-icons/fa'
 import { Link, useNavigation } from 'react-router-dom'
 import type { IAuthValidationErrors } from '~/types'
 
@@ -23,6 +23,7 @@ function AuthForm() {
 
   // submission state
   const isSubmitting = navigation.state !== 'idle'
+  const isSignUp = authMode === EAuthModes.SIGN_UP
 
   return (
     <Form method="post" className="form" id="auth-form">
@@ -49,10 +50,10 @@ function AuthForm() {
       <div className="form-actions">
         <button type="submit" disabled={Boolean(isSubmitting)}>
           {isSubmitting
-            ? EAuthModes.SIGN_UP === authMode
+            ? isSignUp
               ? 'Creating Account...'
               : 'Signing in...'
-            : EAuthModes.SIGN_UP === authMode
+            : isSignUp
             ? 'Sign Up'
             : 'Sign In'}
         </button>
@@ -60,13 +61,11 @@ function AuthForm() {
           to={{
             pathname: '/auth',
             search: `mode=${
-              EAuthModes.SIGN_IN === authMode
-                ? EAuthModes.SIGN_UP
-                : EAuthModes.SIGN_IN
+              isSignUp ? EAuthModes.SIGN_IN : EAuthModes.SIGN_UP
             }`,
           }}
         >
-          {EAuthModes.SIGN_UP === authMode
+          {isSignUp
             ? 'Log in with existing user'
             : "Don't have an account, Sign Up"}
         </Link>
