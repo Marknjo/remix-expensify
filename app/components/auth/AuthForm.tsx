@@ -27,9 +27,8 @@ function AuthForm() {
 
   return (
     <Form method="post" className="form" id="auth-form">
-      <div className="icon-img">
-        <FaLock />
-      </div>
+      <div className="icon-img">{isSignUp ? <FaUserPlus /> : <FaLock />}</div>
+
       <p>
         <label htmlFor="email">Email Address</label>
         <input type="email" id="email" name="email" required />
