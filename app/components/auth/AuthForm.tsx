@@ -1,6 +1,7 @@
-import { Form, useSearchParams } from '@remix-run/react'
+import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { FaLock } from 'react-icons/fa'
 import { Link, useNavigation } from 'react-router-dom'
+import type { IAuthValidationErrors } from '~/types'
 
 export enum EAuthModes {
   SIGN_IN = 'sign-in',
@@ -10,6 +11,7 @@ export enum EAuthModes {
 function AuthForm() {
   const navigation = useNavigation()
   const [searchQuery] = useSearchParams()
+  const validationErrors = useActionData<IAuthValidationErrors>()
 
   // form state
   const mode = searchQuery.get('mode') || EAuthModes.SIGN_IN
@@ -21,9 +23,6 @@ function AuthForm() {
 
   // submission state
   const isSubmitting = navigation.state !== 'idle'
-
-  {
-  }
 
   return (
     <Form method="post" className="form" id="auth-form">
@@ -38,6 +37,15 @@ function AuthForm() {
         <label htmlFor="password">Password</label>
         <input type="password" id="password" name="password" minLength={7} />
       </p>
+
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map(error => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
+
       <div className="form-actions">
         <button type="submit" disabled={Boolean(isSubmitting)}>
           {isSubmitting
