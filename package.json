@@ -5,7 +5,8 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prisma:push": "npx prisma db push"
   },
   "dependencies": {
     "@prisma/client": "5.3.0",
