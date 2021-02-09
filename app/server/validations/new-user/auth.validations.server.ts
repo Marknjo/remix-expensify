@@ -32,6 +32,8 @@ export default function validateCredentials(
   }
 
   if (Object.keys(validationErrors).length > 0) {
-    throw validationErrors
+    throw {
+      errors: validationErrors,
+    }
   }
 }

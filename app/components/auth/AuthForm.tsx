@@ -11,7 +11,9 @@ export enum EAuthModes {
 function AuthForm() {
   const navigation = useNavigation()
   const [searchQuery] = useSearchParams()
-  const validationErrors = useActionData<IAuthValidationErrors>()
+  const validationErrors = useActionData<{
+    errors: IAuthValidationErrors
+  }>()
 
   // form state
   const mode = searchQuery.get('mode') || EAuthModes.SIGN_IN
@@ -45,9 +47,9 @@ function AuthForm() {
         <input type="password" id="password" name="password" minLength={7} />
       </p>
 
-      {validationErrors && (
+      {validationErrors?.errors && (
         <ul>
-          {Object.values(validationErrors).map(error => (
+          {Object.values(validationErrors.errors).map(error => (
             <li key={error}>{error}</li>
           ))}
         </ul>
