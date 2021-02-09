@@ -2,6 +2,7 @@ import type { User } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 import { db } from '~/utils/db.server'
+import { createUserSession } from './sessions-utils.server'
 
 export default async function createUser(
   inputs: Pick<User, 'name' | 'email' | 'password'>,
@@ -20,9 +21,8 @@ export default async function createUser(
     })
 
     // generate login token
-
     // return user
-    return user
+    return createUserSession(user.id, '/expenses')
   } catch (error) {
     throw new Error('Failed to create a new user')
   }
