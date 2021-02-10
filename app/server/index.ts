@@ -7,3 +7,4 @@ export { default as deleteExpense } from './api/expenses/delete-expense.server'
 // Users
 export { default as validateAuthInputs } from './validations/new-user'
 export { default as createUser } from './api/auth/create-user.server'
+export { default as findUser } from './api/auth/find-user.server'
