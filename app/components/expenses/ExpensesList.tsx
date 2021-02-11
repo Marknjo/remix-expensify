@@ -11,9 +11,9 @@ function ExpensesList({ expenses }: { expenses: Expense[] }) {
           <p>😟 Oops! Looks like you do not have any expenses yet!</p>
           <p>
             <Link to="add">
-              <div>
+              <span>
                 <span>Add New Expense</span> <FaPlus />
-              </div>
+              </span>
             </Link>
           </p>
         </section>
