@@ -1,7 +1,9 @@
 import type { User } from '@prisma/client'
 import { json, type ActionArgs, type LinksFunction } from '@remix-run/node'
 import AuthForm, { EAuthModes } from '~/components/auth/AuthForm'
-import { createUser, validateAuthInputs } from '~/server'
+import { createUser, signIn, validateAuthInputs } from '~/server'
+import type { TAuthIgnoreList } from '~/server/validations/new-user/auth.validations.server'
+import { EAuthFields } from '~/server/validations/new-user/auth.validations.server'
 import authStyles from '~/styles/auth.css'
 
 // meta
@@ -22,7 +24,29 @@ export async function action({ request }: ActionArgs) {
 
   // handle sign-in
   if (authMode === EAuthModes.SIGN_IN) {
-    // @TODO: Handle signin
+    const signInUserInputs = authInputs as unknown as Pick<
+      User,
+      'email' | 'password'
+    >
+
+    const ignoreValidationFields = new Set() as TAuthIgnoreList
+    ignoreValidationFields.add(EAuthFields.NAME)
+
+    try {
+      validateAuthInputs(signInUserInputs, ignoreValidationFields)
+    } catch (error) {
+      return {
+        errors: 'Username or Password invalid',
+      }
+    }
+
+    try {
+      return signIn(signInUserInputs)
+    } catch (error) {
+      return {
+        errors: error instanceof Error ? error.message : 'Failed login',
+      }
+    }
   }
 
   // handle sign-up
