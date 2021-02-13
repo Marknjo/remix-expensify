@@ -1,7 +1,13 @@
-import type { LoaderFunction } from '@remix-run/node'
-import { getExpenses } from '~/server'
+import { redirect, type LoaderFunction } from '@remix-run/node'
+import { getExpenses, isLoggedIn } from '~/server'
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await isLoggedIn(request)
+
+  if (!userId) {
+    return redirect('/auth')
+  }
+
   try {
     return getExpenses()
   } catch (error) {
