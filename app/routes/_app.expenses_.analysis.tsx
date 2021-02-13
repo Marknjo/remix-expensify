@@ -1,14 +1,20 @@
 import type { Expense } from '@prisma/client'
-import type { LoaderFunction } from '@remix-run/node'
+import { redirect, type LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import Chart from '~/components/expenses/Chart'
 import ExpenseStatistics from '~/components/expenses/ExpenseStatistics'
-import { getExpenses } from '~/server'
+import { getExpenses, isLoggedIn } from '~/server'
 
 // meta
 
 // loader
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await isLoggedIn(request)
+
+  if (!userId) {
+    return redirect('/auth')
+  }
+
   try {
     return getExpenses()
   } catch (error) {
