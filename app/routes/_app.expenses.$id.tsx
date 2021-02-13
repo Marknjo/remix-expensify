@@ -1,10 +1,15 @@
 import type { Expense } from '@prisma/client'
-import { redirect, type ActionArgs, json } from '@remix-run/node'
+import { redirect, type ActionArgs, json, LoaderArgs } from '@remix-run/node'
 import { useNavigate } from '@remix-run/react'
 
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
-import { deleteExpense, updateExpense, validateExpenseInput } from '~/server'
+import {
+  deleteExpense,
+  isLoggedIn,
+  updateExpense,
+  validateExpenseInput,
+} from '~/server'
 import type { INewExpense } from '~/types'
 
 // meta
@@ -73,6 +78,17 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   return null
+}
+
+// Loader
+export async function loader({ request }: LoaderArgs) {
+  const userId = await isLoggedIn(request)
+
+  if (userId) {
+    return null
+  }
+
+  return redirect('/auth')
 }
 
 // page component
