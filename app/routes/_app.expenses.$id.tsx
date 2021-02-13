@@ -1,5 +1,6 @@
 import type { Expense } from '@prisma/client'
-import { redirect, type ActionArgs, json, LoaderArgs } from '@remix-run/node'
+import type { ActionArgs, LoaderArgs } from '@remix-run/node'
+import { redirect, json } from '@remix-run/node'
 import { useNavigate } from '@remix-run/react'
 
 import ExpenseForm from '~/components/expenses/ExpenseForm'
