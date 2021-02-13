@@ -1,9 +1,9 @@
-import { redirect, type ActionFunction } from '@remix-run/node'
+import { redirect, type ActionFunction, LoaderArgs } from '@remix-run/node'
 import { useNavigate } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/ui/Modal'
-import { createExpense, validateExpenseInput } from '~/server'
+import { createExpense, isLoggedIn, validateExpenseInput } from '~/server'
 import type { INewExpense, INewExpenseValidationsErrors } from '~/types'
 
 // meta
@@ -45,6 +45,15 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 // loader
+export async function loader({ request }: LoaderArgs) {
+  const userId = await isLoggedIn(request)
+
+  if (userId) {
+    return null
+  }
+
+  return redirect('/auth')
+}
 
 // page component
 export default function AddExpensePage() {
