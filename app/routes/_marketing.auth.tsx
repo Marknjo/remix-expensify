@@ -1,7 +1,13 @@
 import type { User } from '@prisma/client'
-import { json, type ActionArgs, type LinksFunction } from '@remix-run/node'
+import {
+  json,
+  type ActionArgs,
+  type LinksFunction,
+  LoaderArgs,
+  redirect,
+} from '@remix-run/node'
 import AuthForm, { EAuthModes } from '~/components/auth/AuthForm'
-import { createUser, signIn, validateAuthInputs } from '~/server'
+import { createUser, isLoggedIn, signIn, validateAuthInputs } from '~/server'
 import type { TAuthIgnoreList } from '~/server/validations/new-user/auth.validations.server'
 import { EAuthFields } from '~/server/validations/new-user/auth.validations.server'
 import authStyles from '~/styles/auth.css'
@@ -83,6 +89,16 @@ export async function action({ request }: ActionArgs) {
 }
 
 // loaders
+// loader
+export async function loader({ request }: LoaderArgs) {
+  const userId = await isLoggedIn(request)
+
+  if (userId) {
+    return redirect('/expenses')
+  }
+
+  return null
+}
 
 // page component
 export default function AuthPage() {
