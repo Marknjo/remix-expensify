@@ -74,7 +74,7 @@ function AuthForm() {
           }}
         >
           {isSignUp
-            ? 'Log in with existing user'
+            ? 'Sign in with existing user'
             : "Don't have an account, Sign Up"}
         </Link>
       </div>

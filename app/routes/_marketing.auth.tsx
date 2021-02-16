@@ -1,11 +1,6 @@
 import type { User } from '@prisma/client'
-import {
-  json,
-  type ActionArgs,
-  type LinksFunction,
-  LoaderArgs,
-  redirect,
-} from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
+import type { LoaderArgs, ActionArgs, LinksFunction } from '@remix-run/node'
 import AuthForm, { EAuthModes } from '~/components/auth/AuthForm'
 import { createUser, isLoggedIn, signIn, validateAuthInputs } from '~/server'
 import type { TAuthIgnoreList } from '~/server/validations/new-user/auth.validations.server'
