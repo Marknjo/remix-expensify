@@ -1,8 +1,9 @@
-import { NavLink, useSearchParams } from '@remix-run/react'
+import { NavLink, useLocation, useSearchParams } from '@remix-run/react'
 import Logo from '../ui/Logo'
 import { EAuthModes } from '../auth/AuthForm'
 
 function MainHeader() {
+  const location = useLocation()
   const [searchParams] = useSearchParams()
   const mode = searchParams.get('mode') || EAuthModes.SIGN_IN
   let transformedMode = mode
@@ -12,6 +13,10 @@ function MainHeader() {
   const authMode = EAuthModes[transformedMode] || EAuthModes.SIGN_IN
 
   const isSignUp = EAuthModes.SIGN_UP === authMode
+
+  const showLoginBtn =
+    location.pathname === '/' || location.pathname === '/pricing'
+
   return (
     <header id="main-header">
       <Logo />
@@ -40,11 +45,19 @@ function MainHeader() {
                   isSignUp ? EAuthModes.SIGN_IN : EAuthModes.SIGN_UP
                 }`,
               }}
-              className="cta"
+              className={`cta ${showLoginBtn ? 'cta--sign-up' : ''}`}
             >
               {isSignUp ? 'Sign In' : 'Sign Up'}
             </NavLink>
           </li>
+
+          {showLoginBtn && (
+            <li>
+              <NavLink to="/auth" className="cta ">
+                Sign In
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
