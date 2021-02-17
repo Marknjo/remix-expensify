@@ -18,6 +18,6 @@ export default async function signIn(input: Pick<User, 'email' | 'password'>) {
 
     return createUserSession(user.id, '/expenses')
   } catch (error) {
-    throw 'Username or Password invalid'
+    throw new Error('Username or Password invalid')
   }
 }
