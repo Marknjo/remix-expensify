@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   try {
-    return getExpenses()
+    return getExpenses(userId)
   } catch (error) {
     throw error
   }
