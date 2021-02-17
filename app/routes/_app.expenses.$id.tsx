@@ -60,7 +60,11 @@ export async function action({ request, params }: ActionArgs) {
   // delete request
   if (method === 'DELETE') {
     try {
-      await deleteExpense(id!)
+      const formData = await request.formData()
+
+      const userId = formData.get('userId') as string
+
+      await deleteExpense(id!, userId)
       return redirect('..')
     } catch (error) {
       throw json(
