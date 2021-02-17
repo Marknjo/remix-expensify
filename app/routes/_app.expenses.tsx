@@ -1,4 +1,5 @@
-import { redirect, type LoaderFunction } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { FaDownload, FaPlus } from 'react-icons/fa'
 import ExpensesList from '~/components/expenses/ExpensesList'
@@ -19,7 +20,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   try {
-    return getExpenses()
+    return getExpenses(userId)
   } catch (error) {
     throw error
   }
