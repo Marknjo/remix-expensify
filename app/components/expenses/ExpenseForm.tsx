@@ -51,7 +51,6 @@ function ExpenseForm() {
         date: '',
       }
 
-  console.log()
   const method = expenseData ? 'patch' : 'post'
 
   return (

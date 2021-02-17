@@ -37,15 +37,17 @@ export async function action({ request }: ActionArgs) {
       validateAuthInputs(signInUserInputs, ignoreValidationFields)
     } catch (error) {
       return {
-        errors: 'Username or Password invalid',
+        errors: { login: 'Username or Password invalid' },
       }
     }
 
     try {
-      return signIn(signInUserInputs)
+      return await signIn(signInUserInputs)
     } catch (error) {
       return {
-        errors: error instanceof Error ? error.message : 'Failed login',
+        errors: {
+          login: error instanceof Error ? error.message : 'Failed login',
+        },
       }
     }
   }
@@ -65,7 +67,7 @@ export async function action({ request }: ActionArgs) {
 
     try {
       // sign-up user
-      return createUser(newUserInputs)
+      return await createUser(newUserInputs)
     } catch (error) {
       throw json(
         {
