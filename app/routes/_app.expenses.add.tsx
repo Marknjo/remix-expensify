@@ -34,7 +34,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   // save to db
   try {
-    await createExpense(newExpense)
+    await createExpense(newExpense, request)
   } catch (error) {
     console.log(error)
 
