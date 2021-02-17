@@ -3,7 +3,14 @@ import { Link, useFetcher } from '@remix-run/react'
 import type { Expense } from '@prisma/client'
 import { formatCurrency } from '../utils/format-currency'
 
-function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
+function ExpenseListItem({
+  title,
+  amount,
+  id,
+  locale,
+  currencyCode,
+  userId,
+}: Expense) {
   const fetcher = useFetcher()
 
   function deleteExpenseItemHandler(event: SyntheticEvent) {
@@ -34,6 +41,7 @@ function ExpenseListItem({ title, amount, id, locale, currencyCode }: Expense) {
       </div>
       <menu className="expense-actions">
         <fetcher.Form method="delete">
+          <input type="hidden" name="userId" value={userId} aria-hidden />
           <button
             type="submit"
             onClick={deleteExpenseItemHandler}
