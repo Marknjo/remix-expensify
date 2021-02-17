@@ -1,9 +1,9 @@
 import { json } from '@remix-run/node'
 import { db } from '~/utils/db.server'
 
-export default async function getAllExpenses() {
+export default async function getAllExpenses(userId: string) {
   try {
-    const expenses = await db.expense.findMany()
+    const expenses = await db.expense.findMany({ where: { userId } })
     return expenses
   } catch (error) {
     throw json(
