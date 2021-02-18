@@ -1,8 +1,15 @@
-import { NavLink, useLocation, useSearchParams } from '@remix-run/react'
+import {
+  Form,
+  NavLink,
+  useLoaderData,
+  useLocation,
+  useSearchParams,
+} from '@remix-run/react'
 import Logo from '../ui/Logo'
 import { EAuthModes } from '../auth/AuthForm'
 
 function MainHeader() {
+  const isLoggedIn = useLoaderData()
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const mode = searchParams.get('mode') || EAuthModes.SIGN_IN
@@ -37,25 +44,39 @@ function MainHeader() {
       </nav>
       <nav id="cta-nav">
         <ul>
-          <li>
-            <NavLink
-              to={{
-                pathname: '/auth',
-                search: `mode=${
-                  isSignUp ? EAuthModes.SIGN_IN : EAuthModes.SIGN_UP
-                }`,
-              }}
-              className={`cta ${showLoginBtn ? 'cta--sign-up' : ''}`}
-            >
-              {isSignUp ? 'Sign In' : 'Sign Up'}
-            </NavLink>
-          </li>
+          {!isLoggedIn && (
+            <>
+              <li>
+                <NavLink
+                  to={{
+                    pathname: '/auth',
+                    search: `mode=${
+                      isSignUp ? EAuthModes.SIGN_IN : EAuthModes.SIGN_UP
+                    }`,
+                  }}
+                  className={`cta ${showLoginBtn ? 'cta--sign-up' : ''}`}
+                >
+                  {isSignUp ? 'Sign In' : 'Sign Up'}
+                </NavLink>
+              </li>
 
-          {showLoginBtn && (
+              {showLoginBtn && (
+                <li>
+                  <NavLink to="/auth" className="cta ">
+                    Sign In
+                  </NavLink>
+                </li>
+              )}
+            </>
+          )}
+
+          {isLoggedIn && (
             <li>
-              <NavLink to="/auth" className="cta ">
-                Sign In
-              </NavLink>
+              <Form action="/logout" method="delete">
+                <button type="submit" className="cta">
+                  Logout
+                </button>
+              </Form>
             </li>
           )}
         </ul>
