@@ -36,9 +36,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     await createExpense(newExpense, request)
   } catch (error) {
-    console.log(error)
-
-    // throw error
+    throw error
   }
 
   // redirect to /expenses

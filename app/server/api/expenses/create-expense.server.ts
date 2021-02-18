@@ -25,8 +25,6 @@ export default async function createExpense(
       },
     })
   } catch (error) {
-    console.log(error)
-
     throw json(
       { message: 'Error creating add this expense' },
       {
