@@ -26,8 +26,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function ExpensesAnalysisPage() {
   const expenses: Array<Expense> = useLoaderData<typeof loader>()
 
-  console.log('🚩🚩🚩', expenses)
-
   if (!expenses || expenses.length === 0) {
     return (
       <main className="analysis__no-expense">
